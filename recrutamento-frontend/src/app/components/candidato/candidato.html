@@ -1,0 +1,49 @@
+<h2>Candidatos</h2>
+
+
+
+<!-- Mensagens de erro/sucesso gerais -->
+<div *ngIf="mensagemErro" class="alert alert-danger" role="alert">
+  {{ mensagemErro }}
+</div>
+<div *ngIf="mensagemSucesso" class="alert alert-success" role="alert">
+  {{ mensagemSucesso }}
+</div>
+
+<!-- Formulário para adicionar novo candidato -->
+<div class="mb-4">
+  <h3>Adicionar Novo Candidato</h3>
+  <!-- Usando #candidatoForm="ngForm" para referenciar o formulário -->
+  <form #candidatoForm="ngForm" (ngSubmit)="candidatoForm.form.valid && adicionarCandidato()" novalidate>
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome:</label>
+      <!-- Adicionado #nomeInput="ngModel" para referenciar o controle -->
+      <!-- Classes de validação Bootstrap: is-invalid -->
+      <input type="text" id="nome" class="form-control" 
+             [(ngModel)]="novoCandidato.nome" name="nome" required 
+             #nomeInput="ngModel"
+             [ngClass]="{ 'is-invalid': candidatoForm.submitted && nomeInput.invalid }">
+      <!-- Mensagem de erro específica para o campo nome -->
+      <div *ngIf="candidatoForm.submitted && nomeInput.invalid" class="invalid-feedback">
+        <div *ngIf="nomeInput.errors?.['required']">Nome é obrigatório.</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <!-- Adicionado #emailInput="ngModel" e validação de email -->
+      <input type="email" id="email" class="form-control" 
+             [(ngModel)]="novoCandidato.email" name="email" required email
+             #emailInput="ngModel"
+             [ngClass]="{ 'is-invalid': candidatoForm.submitted && emailInput.invalid }">
+      <!-- Mensagens de erro específicas para o campo email -->
+      <div *ngIf="candidatoForm.submitted && emailInput.invalid" class="invalid-feedback">
+        <div *ngIf="emailInput.errors?.['required']">Email é obrigatório.</div>
+        <div *ngIf="emailInput.errors?.['email']">Formato de email inválido.</div>
+      </div>
+    </div>
+    <!-- Botão desabilitado se o formulário for inválido -->
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+  </form>
+</div>
+
+

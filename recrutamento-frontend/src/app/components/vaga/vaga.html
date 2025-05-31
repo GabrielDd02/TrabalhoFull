@@ -1,0 +1,39 @@
+<h2>Vagas</h2>
+
+<!-- Mensagens de erro/sucesso -->
+<div *ngIf="mensagemErro" style="color: red; margin-bottom: 10px;">
+  {{ mensagemErro }}
+</div>
+<div *ngIf="mensagemSucesso" style="color: green; margin-bottom: 10px;">
+  {{ mensagemSucesso }}
+</div>
+
+<!-- Formulário para adicionar nova vaga -->
+<div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px;">
+  <h3>Adicionar Nova Vaga</h3>
+  <form (ngSubmit)="adicionarVaga()">
+    <div>
+      <label for="vagaTitulo">Título:</label>
+      <input type="text" id="vagaTitulo" [(ngModel)]="novaVaga.titulo" name="vagaTitulo" required>
+    </div>
+    <div style="margin-top: 5px;">
+      <label for="vagaDescricao">Descrição:</label>
+      <textarea id="vagaDescricao" [(ngModel)]="novaVaga.descricao" name="vagaDescricao"></textarea>
+    </div>
+    <button type="submit" style="margin-top: 10px;">Adicionar Vaga</button>
+  </form>
+</div>
+
+<!-- Lista de vagas -->
+<h3>Lista de Vagas Disponíveis</h3>
+<ul *ngIf="vagas.length > 0; else semVagas">
+  <li *ngFor="let vaga of vagas">
+    {{ vaga.id }} - {{ vaga.titulo }} ({{ vaga.descricao || 'Sem descrição' }})
+  </li>
+</ul>
+<ng-template #semVagas>
+  <p>Nenhuma vaga cadastrada ainda.</p>
+</ng-template>
+
+<button (click)="carregarVagas()" style="margin-top: 10px;">Atualizar Lista de Vagas</button>
+

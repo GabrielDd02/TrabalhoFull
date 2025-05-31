@@ -1,0 +1,40 @@
+<h3>Aplicar para Vaga</h3>
+
+<!-- Mensagens de erro/sucesso -->
+<div *ngIf="mensagemErro" style="color: red; margin-bottom: 10px;">
+  {{ mensagemErro }}
+</div>
+<div *ngIf="mensagemSucesso" style="color: green; margin-bottom: 10px;">
+  {{ mensagemSucesso }}
+</div>
+
+<div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px;">
+  <form (ngSubmit)="aplicarParaVaga()">
+    <div style="margin-bottom: 10px;">
+      <label for="candidatoSelect">Selecione o Candidato:</label>
+      <select id="candidatoSelect" [(ngModel)]="candidatoSelecionadoId" name="candidatoSelect" required>
+        <option [ngValue]="null" disabled>-- Selecione um Candidato --</option>
+        <option *ngFor="let candidato of candidatos" [ngValue]="candidato.id">
+          {{ candidato.nome }} (ID: {{ candidato.id }})
+        </option>
+      </select>
+      <div *ngIf="!candidatos.length" style="font-style: italic; color: grey;">Carregando candidatos... ou nenhum cadastrado.</div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="vagaSelect">Selecione a Vaga:</label>
+      <select id="vagaSelect" [(ngModel)]="vagaSelecionadaId" name="vagaSelect" required>
+        <option [ngValue]="null" disabled>-- Selecione uma Vaga --</option>
+        <option *ngFor="let vaga of vagas" [ngValue]="vaga.id">
+          {{ vaga.titulo }} (ID: {{ vaga.id }})
+        </option>
+      </select>
+       <div *ngIf="!vagas.length" style="font-style: italic; color: grey;">Carregando vagas... ou nenhuma cadastrada.</div>
+    </div>
+
+    <button type="submit" [disabled]="!candidatoSelecionadoId || !vagaSelecionadaId">Aplicar para Vaga</button>
+  </form>
+</div>
+
+<button (click)="carregarCandidatos(); carregarVagas()" style="margin-top: 10px;">Atualizar Listas</button>
+
